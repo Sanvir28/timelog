@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Game Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Auth Screen (initially shown) -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-container">
+      <div class="auth-header">
+        <h1 class="minecraft-title glow-text">MINECRAFT</h1>
+        <h2 class="minecraft-subtitle mc-yellow float-animation">GAME TRACKER</h2>
+      </div>
+      
+      <div class="auth-panel-container">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="login">Login</button>
+          <button class="auth-tab" data-tab="register">Register</button>
+        </div>
+        
+        <!-- Login Form -->
+        <div class="auth-panel active" id="login-panel">
+          <div class="minecraft-card">
+            <div class="card-header">
+              <h3>Login to your account</h3>
+            </div>
+            <div class="card-content">
+              <form id="login-form">
+                <div id="login-error" class="error-message"></div>
+                
+                <div class="form-group">
+                  <label for="login-username">Username</label>
+                  <input type="text" id="login-username" placeholder="Enter your username" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="login-password">Password</label>
+                  <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="submit" class="minecraft-button">Login</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Register Form -->
+        <div class="auth-panel" id="register-panel">
+          <div class="minecraft-card">
+            <div class="card-header">
+              <h3>Create a new account</h3>
+            </div>
+            <div class="card-content">
+              <form id="register-form">
+                <div id="register-error" class="error-message"></div>
+                
+                <div class="form-group">
+                  <label for="register-username">Username</label>
+                  <input type="text" id="register-username" placeholder="Choose a username" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="register-password">Password</label>
+                  <input type="password" id="register-password" placeholder="Choose a password" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="register-confirm-password">Confirm Password</label>
+                  <input type="password" id="register-confirm-password" placeholder="Confirm your password" required>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="submit" class="minecraft-button">Register</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App (initially hidden) -->
+  <div id="app-screen" class="app-screen hidden">
+    <header class="minecraft-header">
+      <div class="header-content">
+        <div class="header-top">
+          <h1 class="minecraft-title glow-text">MINECRAFT</h1>
+          <div class="user-menu">
+            <span class="username" id="logged-in-username">User</span>
+            <button id="logout-button" class="small-button">Logout</button>
+          </div>
+        </div>
+        <h2 class="minecraft-subtitle mc-yellow float-animation">GAME TRACKER</h2>
+        
+        <div class="status-bar glass-effect">
+          <div class="stat-block minecraft-block minecraft-grass">
+            <span class="stat-icon">⏱️</span>
+            <span class="stat-label">Total: <span id="total-playtime">0h 0m</span></span>
+          </div>
+          
+          <div class="stat-block minecraft-block minecraft-wood">
+            <span class="stat-icon">📊</span>
+            <span class="stat-label">Track Your Games</span>
+          </div>
+        </div>
+      </div>
+      <div class="pixelated-border"></div>
+    </header>
+
+  <main>
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-button active" data-tab="log">Log Game</button>
+        <button class="tab-button" data-tab="history">History</button>
+        <button class="tab-button" data-tab="stats">Statistics</button>
+      </div>
+      
+      <div class="tab-content">
+        <!-- Log Game Tab -->
+        <div class="tab-panel active" id="log-panel">
+          <div class="minecraft-card">
+            <div class="card-header">
+              <h3>
+                <span class="icon-document"></span>
+                Log Game Session
+              </h3>
+            </div>
+            <div class="card-content">
+              <form id="game-form">
+                <div id="error-message" class="error-message"></div>
+                
+                <div class="form-group">
+                  <label for="game">Game Name</label>
+                  <input type="text" id="game" placeholder="Enter game name" required>
+                </div>
+                
+                <div class="form-group">
+                  <div class="label-with-button">
+                    <label for="startTime">Start Time</label>
+                    <button type="button" id="set-start-now" class="small-button">Set to now</button>
+                  </div>
+                  <input type="datetime-local" id="startTime" required>
+                </div>
+                
+                <div class="form-group">
+                  <div class="label-with-button">
+                    <label for="endTime">End Time</label>
+                    <button type="button" id="set-end-now" class="small-button">Set to now</button>
+                  </div>
+                  <input type="datetime-local" id="endTime" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="notes">Notes (Optional)</label>
+                  <textarea id="notes" placeholder="Add notes about your gaming session" rows="4"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="submit" id="submit-button" class="minecraft-button">Log Game Session</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <!-- History Tab -->
+        <div class="tab-panel" id="history-panel">
+          <div class="minecraft-card">
+            <div class="card-header">
+              <h3>
+                <span class="icon-history"></span>
+                Game History
+              </h3>
+            </div>
+            <div class="card-content">
+              <div class="filter-controls">
+                <div class="search-box">
+                  <input type="text" id="search-input" placeholder="Search games or notes...">
+                </div>
+                <div class="filter-selects">
+                  <select id="game-filter">
+                    <option value="all">All Games</option>
+                    <!-- Game options will be added by JavaScript -->
+                  </select>
+                  
+                  <select id="sort-by">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="longest">Longest First</option>
+                    <option value="shortest">Shortest First</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div id="sessions-list" class="sessions-container">
+                <!-- Sessions will be added here by JavaScript -->
+                <div class="empty-state">
+                  <p>No game sessions found.</p>
+                  <p class="hint-text">Start logging your gaming time!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Statistics Tab -->
+        <div class="tab-panel" id="stats-panel">
+          <div class="time-filter">
+            <button class="time-filter-button active" data-time-range="all">All Time</button>
+            <button class="time-filter-button" data-time-range="month">Last Month</button>
+            <button class="time-filter-button" data-time-range="week">Last Week</button>
+          </div>
+          
+          <div class="stats-overview">
+            <div class="stat-card">
+              <h4>Total Time</h4>
+              <p id="stat-total-time" class="stat-value glow-text">0 hrs</p>
+            </div>
+            
+            <div class="stat-card">
+              <h4>Top Game</h4>
+              <p id="stat-top-game" class="stat-game">None</p>
+              <p id="stat-top-game-time" class="stat-subvalue">0 hours</p>
+            </div>
+            
+            <div class="stat-card">
+              <h4>Avg. Session</h4>
+              <p id="stat-avg-session" class="stat-value glow-text">0 hrs</p>
+            </div>
+          </div>
+          
+          <div class="chart-tabs">
+            <div class="chart-tab-buttons">
+              <button class="chart-tab-button active" data-chart="bar">Game Time</button>
+              <button class="chart-tab-button" data-chart="pie">Proportion</button>
+              <button class="chart-tab-button" data-chart="line">Trends</button>
+            </div>
+            
+            <div class="chart-panels">
+              <div class="chart-panel active" id="bar-chart-panel">
+                <div class="minecraft-card">
+                  <div class="card-header">
+                    <h3>Time Spent Per Game</h3>
+                  </div>
+                  <div class="card-content">
+                    <div class="chart-container">
+                      <canvas id="bar-chart" class="minecraft-chart"></canvas>
+                      <div class="no-data-message">No data available</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="chart-panel" id="pie-chart-panel">
+                <div class="minecraft-card">
+                  <div class="card-header">
+                    <h3>Game Time Distribution</h3>
+                  </div>
+                  <div class="card-content">
+                    <div class="chart-container">
+                      <canvas id="pie-chart" class="minecraft-chart"></canvas>
+                      <div class="no-data-message">No data available</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="chart-panel" id="line-chart-panel">
+                <div class="minecraft-card">
+                  <div class="card-header">
+                    <h3>Gaming Trends Over Time</h3>
+                  </div>
+                  <div class="card-content">
+                    <div class="chart-container">
+                      <canvas id="line-chart" class="minecraft-chart"></canvas>
+                      <div class="no-data-message">No data available</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2023 Minecraft Game Tracker - Built with HTML, CSS & JavaScript</p>
+  </footer>
+
+  <!-- Achievement notification container -->
+  <div id="minecraft-achievements"></div>
+
+  <!-- Audio element for achievement sounds -->
+  <audio id="achievement-sound" preload="auto" style="display: none">
+    <source src="data:audio/wav;base64,UklGRnQHAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YVAHAACAgICAgICAgICAgICAgICAgICAgICAgICBgYGCgoKCgoKBgYGBgYGAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAf39/f39/f39/f39/f39/f39/gICAgICAgICAgICAgICAgYGBgoKCg4ODhISEhISEhISEg4ODg4OCgoKCgoKCgoKBgYGBgYGAgICAgICAgIB/f39/f39+fn5+fn5+fn5+fn5+fn5+fn5/f39/f3+AgICAgICAgYGBgoKCg4ODhISEhYWFhoaGh4eHiIiIiIiIiIiIiIiIh4eHh4eGhoaGhYWFhISDg4OCgoKBgYGAgICAgIB/f39/f35+fn19fXx8fHx8e3t7e3t7e3t7e3t8fHx8fH19fX5+fn9/f4CAgIGBgYKCgoSEhIWFhYeHh4iIiImJiYqKiouLi4uLi4uLi4qKioqKiYmJiIiIh4eHhoaGhYWEhISDg4KCgYGBgICAgIB/f39/fn5+fX19fHx8e3t7enp6eXl5eXl5eHh4eHh4eXl5enp6e3t7fHx8fX19fn5+f3+AgICBgYGCgoKEhISFhYWGhoaHh4eIiIiJiYmKioqKioqKioqKioqJiYmJiIiIiIeHh4aGhoWFhYSEg4OCgoKBgYGAgICAgIB/f39/fn5+fX19fHx8e3t7enp6eXl5eHh4d3d3d3d3d3d3d3d4eHh4eXl5enp6e3t7fHx8fX19fn5+f3+AgICBgYGCgoKDg4OEhISFhYWGhoaHh4eIiIiIiIiJiYmJiYmJiYmJiYmIiIiIiIiHh4eHhoaGhYWFhISDg4ODgoKCgYGBgYGAgICAgICAf39/f39/f39/f35+fn5+fn5+fn5+fn5+fn5+fn9/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIB/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f3+AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIB/f39/f39/f39/f39/f39/f39/f3+AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIB/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f3+AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==" type="audio/wav">
+  </audio>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
